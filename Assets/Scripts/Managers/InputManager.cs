@@ -30,7 +30,10 @@ public static class InputManager
 
         };
 
-
+        _controls.Game.Jump.started += _controls => 
+        {
+            myPlayer.Jump();
+        };
 
         _controls.Permanent.Enable();
 

@@ -11,11 +11,11 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
 
-
-
+    private bool isGrounded;
     private Vector3 _moveDir;
-
+    private Rigidbody rb;
 
 
     // Start is called before the first frame update
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         InputManager.Init(this);
 
         InputManager.GameMode();
-
+        rb = GetComponent<Rigidbody>();
     }
 
 
@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     {
 
         transform.position += speed * Time.deltaTime * _moveDir;
+        CheckGround();
 
     }
 
@@ -54,7 +55,21 @@ public class Player : MonoBehaviour
 
     }
 
+    public void Jump()
+    {
+        Debug.Log("Jump called");
+        if (isGrounded)
+        {
+            Debug.Log("I jumped!");
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
 
+    private void CheckGround()
+    {
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, GetComponent<Collider>().bounds.size.y);
+        Debug.DrawRay(transform.position, Vector3.down * GetComponent<Collider>().bounds.size.y, Color.green, 0, false);
+    }
 
 
 
