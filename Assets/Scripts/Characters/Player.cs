@@ -12,22 +12,24 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private LayerMask groundLayers;
+    
 
     private bool isGrounded;
     private Vector3 _moveDir;
     private Rigidbody rb;
-
+    private float depth;
 
     // Start is called before the first frame update
 
     void Start()
 
     {
-
         InputManager.Init(this);
-
         InputManager.GameMode();
+
         rb = GetComponent<Rigidbody>();
+        depth = GetComponent<Collider>().bounds.size.y;
     }
 
 
@@ -67,9 +69,12 @@ public class Player : MonoBehaviour
 
     private void CheckGround()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, GetComponent<Collider>().bounds.size.y);
-        Debug.DrawRay(transform.position, Vector3.down * GetComponent<Collider>().bounds.size.y, Color.green, 0, false);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, depth, groundLayers);
+        Debug.DrawRay(transform.position, Vector3.down * depth, Color.green, 0, false);
     }
+
+
+
 
 
 
