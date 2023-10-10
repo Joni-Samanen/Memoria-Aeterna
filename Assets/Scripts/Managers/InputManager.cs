@@ -35,6 +35,16 @@ public static class InputManager
             myPlayer.Jump();
         };
 
+        _controls.Game.Look.performed += ctx =>
+        {
+            myPlayer.SetLookRotation(ctx.ReadValue<Vector3>());
+        };
+
+        _controls.Game.Shoot.started += ctx =>
+        {
+            myPlayer.Shoot();
+        };
+
         _controls.Permanent.Enable();
 
 
