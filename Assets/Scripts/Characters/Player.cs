@@ -16,7 +16,6 @@ public class Player : MonoBehaviour
     // Fields to store the layer mask for the ground
     [SerializeField] private LayerMask groundLayers;
     // Field to store the direction the player is moving
-    private float    
 
     // Field to store if the player is on the ground
     private bool isGrounded;
