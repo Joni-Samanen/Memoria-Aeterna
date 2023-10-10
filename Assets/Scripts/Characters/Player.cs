@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     private Vector2 currentRotation;
     [SerializeField] private float mouseSensX;
     [SerializeField] private float mouseSensY;
+    // Keep track of collected coins
+    private int coins = 0;
 
     // Start is called before the first frame update
 
@@ -99,7 +101,11 @@ public class Player : MonoBehaviour
     {
         
     }
-
+    public void coinsCollected()
+    {
+        coins++;
+        Debug.Log("Coins collected: " + coins);
+    }
 
     // Fields to store the player's speed and jump force
 

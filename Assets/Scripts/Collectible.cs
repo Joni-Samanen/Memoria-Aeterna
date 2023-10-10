@@ -5,16 +5,13 @@ using UnityEngine;
 public class Collectible : MonoBehaviour
 {
 
-    private static int count = 0;
-
     private void OnTriggerEnter(Collider other)
     
     {
-        if(other.transform.tag == "Player")
+        if (other.CompareTag("Player"))
         {   
-            count++;
+            other.GetComponent<Player>().coinsCollected();
             Destroy(gameObject);
-            Debug.Log("Coins collected: " + count);
         }
     }
 }
