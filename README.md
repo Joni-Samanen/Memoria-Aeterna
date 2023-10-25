@@ -1,4 +1,5 @@
-# Memoria-Aeterna
-School project
-Concept: TBA
+# School project
+1st person game
 Name: TBA
+Concept: TBA
+
