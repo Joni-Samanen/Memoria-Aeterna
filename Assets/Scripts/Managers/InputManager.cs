@@ -17,6 +17,8 @@ public static class InputManager
     public static void Init(Player myPlayer)
 
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
 
         _controls = new Controls();
 
@@ -37,7 +39,7 @@ public static class InputManager
 
         _controls.Game.Look.performed += ctx =>
         {
-            myPlayer.SetLookRotation(ctx.ReadValue<Vector3>());
+            myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
         };
 
         _controls.Game.Shoot.started += ctx =>
