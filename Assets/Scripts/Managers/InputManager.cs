@@ -1,88 +1,62 @@
-using System.Collections;
-
-using System.Collections.Generic;
-
 using UnityEngine;
 
-
-
 public static class InputManager
-
 {
+    private static Controls controls;
 
-
-
-    private static Controls _controls;
-
-    public static void Init(Player myPlayer)
-
+    public static void Init(Player player)
     {
+        // Hide and confine the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
 
-        _controls = new Controls();
+        controls = new Controls();
 
-
-
-        _controls.Game.Movement.performed += ctx => 
-
+        // Subscribe to movement event
+        controls.Game.Movement.performed += ctx =>
         {
-
-            myPlayer.SetMovementDirection(ctx.ReadValue<Vector3>());
-
+            player.SetMovementDirection(ctx.ReadValue<Vector3>());
         };
 
-        _controls.Game.Jump.started += _controls => 
+        // Subscribe to jump event
+        controls.Game.Jump.started += _ =>
         {
-            myPlayer.Jump();
+            player.Jump();
         };
 
-        _controls.Game.Look.performed += ctx =>
+        // Subscribe to look event
+        controls.Game.Look.performed += ctx =>
         {
-            myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
+            player.SetLookRotation(ctx.ReadValue<Vector2>());
         };
 
-        _controls.Game.Shoot.started += ctx =>
+        // Subscribe to shoot event
+        controls.Game.Shoot.started += ctx =>
         {
-            myPlayer.Shoot();
+            player.Shoot();
         };
 
-        _controls.Game.Reload.performed += ctx =>
+        // Subscribe to reload event
+        controls.Game.Reload.performed += ctx =>
         {
-            myPlayer.Reload();
+            player.Reload();
         };
 
-        _controls.Permanent.Enable();
-
-
-
+        // Enable controls
+        controls.Permanent.Enable();
     }
-
-
 
     public static void GameMode()
-
     {
-
-        _controls.Game.Enable();
-
-        _controls.UI.Disable();
-
+        // Enable game controls and disable UI controls
+        controls.Game.Enable();
+        controls.UI.Disable();
     }
-
-
 
     public static void UIMode()
-
     {
-
-        _controls.Game.Disable();
-
-        _controls.UI.Enable();
-
+        // Disable game controls and enable UI controls
+        controls.Game.Disable();
+        controls.UI.Enable();
     }
-
-
-
 }
-

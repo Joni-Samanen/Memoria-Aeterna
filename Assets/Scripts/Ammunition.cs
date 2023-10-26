@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Ammunition : MonoBehaviour
+public class AmmoPickup : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider other)
-    
     {
+        // Check if the collider belongs to the player
         if (other.CompareTag("Player"))
         {   
-            other.GetComponent<Player>().ammoCollected();
+            // Call the ammoCollected method on the Player component
+            other.GetComponent<Player>().AmmoCollected();
+            
+            // Destroy the ammo pickup game object
             Destroy(gameObject);
-
         }
     }
 }

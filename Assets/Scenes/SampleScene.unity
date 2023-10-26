@@ -986,7 +986,7 @@ MonoBehaviour:
   jumpForce: 10
   groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 64
   bulletPrefab: {fileID: -2491263072650773018, guid: 8b283b46bb6d5b01ba8f391c28d0ca1a,
     type: 3}
   bulletForce: 200
@@ -1359,7 +1359,7 @@ GameObject:
   - component: {fileID: 1312853427}
   - component: {fileID: 1312853426}
   - component: {fileID: 1312853425}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
