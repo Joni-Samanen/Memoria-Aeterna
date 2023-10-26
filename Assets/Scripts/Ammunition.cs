@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collectible : MonoBehaviour
+public class Ammunition : MonoBehaviour
 {
 
     private void OnTriggerEnter(Collider other)
@@ -10,8 +10,9 @@ public class Collectible : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {   
-            other.GetComponent<Player>().coinsCollected();
+            other.GetComponent<Player>().ammoCollected();
             Destroy(gameObject);
+
         }
     }
 }

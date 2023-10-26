@@ -31,9 +31,11 @@ public class Player : MonoBehaviour
 
     [Header("Player UI")]
     [SerializeField] private Image healthBar;
-    [SerializeField] private TextMeshProUGUI shotsFired;
+    [SerializeField] private TextMeshProUGUI ammoLeft;
     [SerializeField] private float maxHealth;
-    private int shotsFiredCounter;
+    private int currentAmmo;
+    private float maxAmmo;
+    private int ammoToAdd;
     private float _health;
     private float Health 
     {
@@ -57,9 +59,6 @@ public class Player : MonoBehaviour
     // Field to store the depth of the player
     private float depth;
 
-    // Keep track of collected coins
-    private int coins = 0;
-
     // Start is called before the first frame update
 
     void Start()
@@ -75,6 +74,9 @@ public class Player : MonoBehaviour
         // Get the depth of the player
         depth = GetComponent<Collider>().bounds.size.y;
         Health = maxHealth;
+        currentAmmo = 20;
+        maxAmmo = 20;
+        ammoLeft.text = "Ammo: " + currentAmmo;
     }
 
 
@@ -85,13 +87,11 @@ public class Player : MonoBehaviour
 
     {
 
-        // Move the player
         transform.position += transform.rotation * (speed * Time.deltaTime * _moveDir);
-        // Check if the player is on the ground
+        
         CheckGround();
 
-        Health -= Time.deltaTime * 5;
-
+        // LATER ON: Use this logic to deal damage to player: Health -= Enemy.dealtDamage (or something..)
     }
 
 
@@ -140,25 +140,66 @@ public class Player : MonoBehaviour
 
 
     }
-    public void Shoot()
+   public void Shoot()
     {
-        Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        // If there is ammo left, create a new projectile and shoot it
+        if (currentAmmo > 0)
+        { 
+            // Create a new projectile
+            Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-        currentProjectile.AddForce(lookAtPoint.forward * bulletForce, ForceMode.Impulse);
+            // Apply a force to the projectile to make it move forward
+            currentProjectile.AddForce(lookAtPoint.forward * bulletForce, ForceMode.Impulse);
+            
+            // Destroy the projectile after 4 seconds
+            Destroy(currentProjectile.gameObject, 4);
+            // Decrease the ammo counter
+            --currentAmmo;
+            // Update the ammoLeft text
+            ammoLeft.text = "Ammo: " + currentAmmo.ToString();
+        }
+        else
+        {
+            ammoLeft.text = "Press R to reload!";
+        }
+
+        // Log the maxAmmo and currentAmmo
+        Debug.Log("maxAmmo: " + maxAmmo + " currentAmmo: " + currentAmmo);
+
+    }
+
+   public void Reload()
+    {
+        //If the ammo counter is less than the max ammo
+        if (currentAmmo < maxAmmo)
+        {
+            //Set the ammo to add to the difference between the max ammo and the current ammo counter
+            ammoToAdd = (int)maxAmmo - currentAmmo;
+         
+            //Add the ammo to the current ammo counter
+            currentAmmo += ammoToAdd;
+
+            //Set the text of the ammo left to the new ammo counter
+            ammoLeft.text = "Ammo: " + currentAmmo.ToString();
+        }
+    }
+
+    public void ammoCollected()
+    {
+    int maxAmmoDifference = (int)maxAmmo - currentAmmo;
+    
+    if (maxAmmoDifference > 0)
+    {
+        // Set the amount of ammo to add, limited by the difference between maxAmmo and currentAmmo
+        ammoToAdd = Mathf.Min(5, maxAmmoDifference);
         
-        Destroy(currentProjectile.gameObject, 4);
-        ++shotsFiredCounter;
-        shotsFired.text = shotsFiredCounter.ToString();
-
+        // Add the ammo to the current ammo counter
+        currentAmmo += ammoToAdd;
+        
+        // Set the text of the ammo left to the new ammo counter
+        ammoLeft.text = "Ammo: " + currentAmmo.ToString();
     }
-    public void coinsCollected()
-    {
-        coins++;
-        Debug.Log("Coins collected: " + coins);
-    }
-
-    // Fields to store the player's speed and jump force
-
+}
 
 
 }
