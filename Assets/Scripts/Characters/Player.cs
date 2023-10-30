@@ -89,13 +89,16 @@ public class Player : MonoBehaviour
 
         currentAngle.y = Mathf.Clamp(currentAngle.y, minViewAngle, maxViewAngle);
     }
-
     public void Shoot()
     {
+        
         if (currentAmmo > 0)
         {
             Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             currentProjectile.AddForce(lookAtPoint.forward * bulletForce, ForceMode.Impulse);
+            Collider playerCollider = GetComponent<Collider>();
+            Collider projectileCollider = currentProjectile.GetComponent<Collider>();
+            Physics.IgnoreCollision(playerCollider, projectileCollider);
             Destroy(currentProjectile.gameObject, 4);
 
             --currentAmmo;

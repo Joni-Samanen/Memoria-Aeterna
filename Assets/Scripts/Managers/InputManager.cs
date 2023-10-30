@@ -19,7 +19,7 @@ public static class InputManager
         };
 
         // Subscribe to jump event
-        controls.Game.Jump.started += _ =>
+        controls.Game.Jump.started += ctx =>
         {
             player.Jump();
         };
