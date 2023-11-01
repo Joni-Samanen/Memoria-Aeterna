@@ -41,6 +41,10 @@ public static class InputManager
         {
             player.Reload();
         };
+        controls.Game.SwitchWeapon.performed += ctx =>
+        {
+            player.SwitchWeapon();
+        };
 
         // Enable controls
         controls.Permanent.Enable();
